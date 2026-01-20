@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScribeSec — Offline Transcription for Legal Teams</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: radial-gradient(circle at top, rgba(59, 130, 246, 0.12), transparent 45%),
+          radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.12), transparent 35%), #0a0a0f;
+      }
+
+      .glow-card {
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(8, 8, 15, 0.9));
+        border: 1px solid rgba(99, 102, 241, 0.18);
+        box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.12), 0 20px 60px rgba(15, 23, 42, 0.35);
+      }
+
+      .screenshot-frame {
+        background: linear-gradient(120deg, rgba(15, 23, 42, 0.95), rgba(17, 24, 39, 0.7));
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        box-shadow: 0 40px 80px rgba(2, 6, 23, 0.6), 0 0 40px rgba(99, 102, 241, 0.12);
+      }
+
+      .nav-link.active {
+        color: #ffffff;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+      }
+
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+      }
+
+      .accordion-item.open .accordion-content {
+        max-height: 320px;
+      }
+
+      .tilt {
+        transform: perspective(1000px) rotateX(2deg) rotateY(-3deg);
+      }
+
+      @media (max-width: 768px) {
+        .tilt {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="text-white font-sans">
+    <!-- Sticky navigation -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-[#0a0a0f]/80 border-b border-white/5">
+      <nav class="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
+        <div class="text-xl font-semibold tracking-wide">ScribeSec</div>
+        <div class="hidden md:flex items-center gap-8 text-sm text-slate-300">
+          <a class="nav-link" href="#features" data-section="features">
+            <span data-lang="pl">Funkcje</span>
+            <span data-lang="en" class="hidden">Features</span>
+          </a>
+          <a class="nav-link" href="#security" data-section="security">
+            <span data-lang="pl">Bezpieczeństwo</span>
+            <span data-lang="en" class="hidden">Security</span>
+          </a>
+          <a class="nav-link" href="#pricing" data-section="pricing">
+            <span data-lang="pl">Cennik</span>
+            <span data-lang="en" class="hidden">Pricing</span>
+          </a>
+          <a class="nav-link" href="#faq" data-section="faq">
+            <span data-lang="pl">FAQ</span>
+            <span data-lang="en" class="hidden">FAQ</span>
+          </a>
+        </div>
+        <div class="flex items-center gap-3">
+          <button
+            id="langToggle"
+            class="text-xs uppercase tracking-[0.2em] text-slate-300 border border-white/10 px-3 py-2 rounded-full hover:text-white"
+            type="button"
+            aria-label="Toggle language"
+          >
+            PL
+          </button>
+          <button class="bg-indigo-500 hover:bg-indigo-400 transition px-4 py-2 rounded-full text-sm font-semibold">
+            <span data-lang="pl">Wypróbuj za darmo</span>
+            <span data-lang="en" class="hidden">Try for free</span>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero section -->
+      <section class="max-w-6xl mx-auto px-6 pt-20 pb-16" id="hero">
+        <div class="text-center space-y-6 reveal">
+          <h1 class="text-4xl md:text-6xl font-semibold leading-tight">
+            <span data-lang="pl">Transkrypcja tam, gdzie online nie wchodzi w grę.</span>
+            <span data-lang="en" class="hidden">Transcription where online is not an option.</span>
+          </h1>
+          <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto">
+            <span data-lang="pl">
+              Oprogramowanie do transkrypcji w 100% offline dla policji, prokuratury i kancelarii prawnych.
+              Twoje nagrania nigdy nie opuszczają Twojego komputera.
+            </span>
+            <span data-lang="en" class="hidden">
+              100% offline transcription software for law enforcement, prosecutors, and law firms. Your recordings
+              never leave your computer.
+            </span>
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button class="bg-indigo-500 hover:bg-indigo-400 transition px-6 py-3 rounded-full text-sm font-semibold">
+              <span data-lang="pl">Wypróbuj 30 dni za darmo</span>
+              <span data-lang="en" class="hidden">Try 30 days free</span>
+            </button>
+            <button class="border border-white/20 hover:border-white/40 transition px-6 py-3 rounded-full text-sm">
+              <span data-lang="pl">Zobacz jak działa</span>
+              <span data-lang="en" class="hidden">See how it works</span>
+            </button>
+          </div>
+          <p class="text-xs text-slate-400">
+            <span data-lang="pl">Bez karty kredytowej • Pełna funkcjonalność • 30 dni</span>
+            <span data-lang="en" class="hidden">No credit card • Full functionality • 30 days</span>
+          </p>
+        </div>
+        <div class="mt-12 screenshot-frame rounded-3xl p-8 tilt reveal">
+          <div class="border border-white/10 rounded-2xl h-[420px] md:h-[520px] flex items-center justify-center text-slate-400">
+            [Duży screenshot - pełny widok aplikacji ScribeSec]
+          </div>
+        </div>
+      </section>
+
+      <!-- Social proof -->
+      <section class="max-w-6xl mx-auto px-6 pb-20 reveal">
+        <div class="glow-card rounded-2xl p-6 text-center space-y-6">
+          <p class="text-sm text-slate-300">
+            <span data-lang="pl">Od twórców napisowa.pl - oprogramowania używanego przez 17 instytucji publicznych w Polsce</span>
+            <span data-lang="en" class="hidden">From the creators of napisowa.pl - software used by 17 public institutions in Poland</span>
+          </p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-4 text-xs text-slate-500">
+            <div class="border border-white/5 rounded-lg py-4">Logo 1</div>
+            <div class="border border-white/5 rounded-lg py-4">Logo 2</div>
+            <div class="border border-white/5 rounded-lg py-4">Logo 3</div>
+            <div class="border border-white/5 rounded-lg py-4">Logo 4</div>
+            <div class="border border-white/5 rounded-lg py-4">Logo 5</div>
+            <div class="border border-white/5 rounded-lg py-4">Logo 6</div>
+            <div class="border border-white/5 rounded-lg py-4">Logo 7</div>
+            <div class="border border-white/5 rounded-lg py-4">Logo 8</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feature section 1 -->
+      <section class="max-w-6xl mx-auto px-6 pb-20" id="features">
+        <div class="text-center space-y-4 reveal">
+          <h2 class="text-3xl md:text-4xl font-semibold">
+            <span data-lang="pl">Stworzony do pracy z wrażliwymi materiałami</span>
+            <span data-lang="en" class="hidden">Built for working with sensitive materials</span>
+          </h2>
+          <p class="text-slate-300 max-w-2xl mx-auto">
+            <span data-lang="pl">
+              Intuicyjny interfejs zaprojektowany dla profesjonalistów, którzy nie mogą sobie pozwolić na kompromisy
+              w kwestii bezpieczeństwa.
+            </span>
+            <span data-lang="en" class="hidden">
+              Intuitive interface designed for professionals who cannot compromise on security.
+            </span>
+          </p>
+        </div>
+        <div class="mt-10 screenshot-frame rounded-3xl p-6 reveal">
+          <div class="border border-white/10 rounded-2xl h-[360px] md:h-[420px] flex items-center justify-center text-slate-400">
+            [Screenshot - Edytor transkrypcji w akcji]
+          </div>
+        </div>
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="glow-card rounded-2xl p-6 reveal">
+            <h3 class="font-semibold mb-2">100% Offline</h3>
+            <p class="text-sm text-slate-300">
+              <span data-lang="pl">Całe przetwarzanie lokalne. Zero transmisji danych.</span>
+              <span data-lang="en" class="hidden">All processing local. Zero data transmission.</span>
+            </p>
+          </div>
+          <div class="glow-card rounded-2xl p-6 reveal">
+            <h3 class="font-semibold mb-2">
+              <span data-lang="pl">Rozpoznawanie mówców</span>
+              <span data-lang="en" class="hidden">Speaker recognition</span>
+            </h3>
+            <p class="text-sm text-slate-300">
+              <span data-lang="pl">Automatyczna identyfikacja głosów w nagraniu.</span>
+              <span data-lang="en" class="hidden">Automatic voice identification in recordings.</span>
+            </p>
+          </div>
+          <div class="glow-card rounded-2xl p-6 reveal">
+            <h3 class="font-semibold mb-2">
+              <span data-lang="pl">Zaawansowany edytor</span>
+              <span data-lang="en" class="hidden">Advanced editor</span>
+            </h3>
+            <p class="text-sm text-slate-300">
+              <span data-lang="pl">Synchronizacja z audio, skróty klawiszowe.</span>
+              <span data-lang="en" class="hidden">Audio sync, keyboard shortcuts.</span>
+            </p>
+          </div>
+          <div class="glow-card rounded-2xl p-6 reveal">
+            <h3 class="font-semibold mb-2">
+              <span data-lang="pl">Multi-format eksport</span>
+              <span data-lang="en" class="hidden">Multi-format export</span>
+            </h3>
+            <p class="text-sm text-slate-300">
+              <span data-lang="pl">DOCX, TXT, SRT, VTT i więcej.</span>
+              <span data-lang="en" class="hidden">DOCX, TXT, SRT, VTT and more.</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feature section 2 -->
+      <section class="max-w-6xl mx-auto px-6 pb-20">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="space-y-4 reveal">
+            <h2 class="text-3xl font-semibold">
+              <span data-lang="pl">Przestrzenie dopasowane do Twojej branży</span>
+              <span data-lang="en" class="hidden">Workspaces tailored to your industry</span>
+            </h2>
+            <p class="text-slate-300">
+              <span data-lang="pl">
+                System organizacji plików stworzony z myślą o specyfice pracy kancelarii, prokuratury i policji.
+                Twórz Sprawy, dodawaj Dowody, zarządzaj aktami - wszystko w jednym miejscu, całkowicie offline.
+              </span>
+              <span data-lang="en" class="hidden">
+                File organization system built for the specifics of law firms, prosecutors, and police work. Create Cases,
+                add Evidence, manage files - all in one place, completely offline.
+              </span>
+            </p>
+          </div>
+          <div class="screenshot-frame rounded-3xl p-6 reveal">
+            <div class="border border-white/10 rounded-2xl h-[320px] flex items-center justify-center text-slate-400">
+              [Screenshot - Widok przestrzeni roboczych / Spraw]
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feature section 3 -->
+      <section class="max-w-6xl mx-auto px-6 pb-20">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="screenshot-frame rounded-3xl p-6 order-2 lg:order-1 reveal">
+            <div class="border border-white/10 rounded-2xl h-[320px] flex items-center justify-center text-slate-400">
+              [Screenshot - Interfejs wyszukiwania]
+            </div>
+          </div>
+          <div class="space-y-4 order-1 lg:order-2 reveal">
+            <h2 class="text-3xl font-semibold">
+              <span data-lang="pl">Znajdź igłę w stogu siana</span>
+              <span data-lang="en" class="hidden">Find the needle in the haystack</span>
+            </h2>
+            <p class="text-slate-300">
+              <span data-lang="pl">
+                Przeszukuj setki godzin nagrań w kilka sekund. Wpisz słowo kluczowe i natychmiast znajdź wszystkie
+                wystąpienia w całym archiwum spraw.
+              </span>
+              <span data-lang="en" class="hidden">
+                Search hundreds of hours of recordings in seconds. Enter a keyword and instantly find all occurrences
+                across your entire case archive.
+              </span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Security section -->
+      <section class="max-w-6xl mx-auto px-6 pb-20" id="security">
+        <div class="text-center space-y-4 reveal">
+          <h2 class="text-3xl md:text-4xl font-semibold">
+            <span data-lang="pl">Bezpieczeństwo to nie funkcja. To fundament.</span>
+            <span data-lang="en" class="hidden">Security is not a feature. It's the foundation.</span>
+          </h2>
+          <p class="text-slate-300 max-w-2xl mx-auto">
+            <span data-lang="pl">
+              ScribeSec został zaprojektowany od podstaw dla środowisk o najwyższych wymaganiach bezpieczeństwa.
+            </span>
+            <span data-lang="en" class="hidden">
+              ScribeSec was designed from the ground up for environments with the highest security requirements.
+            </span>
+          </p>
+        </div>
+        <div class="mt-10 grid lg:grid-cols-2 gap-10 items-center">
+          <div class="grid sm:grid-cols-2 gap-6">
+            <div class="glow-card rounded-2xl p-6 reveal">
+              <h3 class="font-semibold mb-2">
+                <span data-lang="pl">Zero transmisji danych</span>
+                <span data-lang="en" class="hidden">Zero data transmission</span>
+              </h3>
+              <p class="text-sm text-slate-300">
+                <span data-lang="pl">Nagrania nie są nigdzie przesyłane. Przetwarzanie AI odbywa się w 100% lokalnie.</span>
+                <span data-lang="en" class="hidden">Recordings are never sent anywhere. AI processing happens 100% locally.</span>
+              </p>
+            </div>
+            <div class="glow-card rounded-2xl p-6 reveal">
+              <h3 class="font-semibold mb-2">
+                <span data-lang="pl">Izolacja sieciowa</span>
+                <span data-lang="en" class="hidden">Network isolation</span>
+              </h3>
+              <p class="text-sm text-slate-300">
+                <span data-lang="pl">Dołączamy regułę systemową całkowicie blokującą aplikacji dostęp do internetu.</span>
+                <span data-lang="en" class="hidden">We include a system rule completely blocking the app's internet access.</span>
+              </p>
+            </div>
+            <div class="glow-card rounded-2xl p-6 reveal">
+              <h3 class="font-semibold mb-2">
+                <span data-lang="pl">Transparentna weryfikacja</span>
+                <span data-lang="en" class="hidden">Transparent verification</span>
+              </h3>
+              <p class="text-sm text-slate-300">
+                <span data-lang="pl">Osobna aplikacja do licencji z publicznym kodem źródłowym i dowodem kompilacji.</span>
+                <span data-lang="en" class="hidden">Separate license app with public source code and build proof.</span>
+              </p>
+            </div>
+            <div class="glow-card rounded-2xl p-6 reveal">
+              <h3 class="font-semibold mb-2">
+                <span data-lang="pl">Polska jurysdykcja</span>
+                <span data-lang="en" class="hidden">Polish jurisdiction</span>
+              </h3>
+              <p class="text-sm text-slate-300">
+                <span data-lang="pl">Oprogramowanie tworzone przez KANTANTE sp. z o.o., 100% polskiego kapitału.</span>
+                <span data-lang="en" class="hidden">Software created by KANTANTE sp. z o.o., 100% Polish capital.</span>
+              </p>
+            </div>
+          </div>
+          <div class="screenshot-frame rounded-3xl p-6 reveal">
+            <div class="border border-white/10 rounded-2xl h-[300px] flex items-center justify-center text-slate-400">
+              [Screenshot/Grafika - Wizualizacja bezpieczeństwa]
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feature section 4 -->
+      <section class="max-w-6xl mx-auto px-6 pb-20">
+        <div class="text-center space-y-4 reveal">
+          <h2 class="text-3xl md:text-4xl font-semibold">
+            <span data-lang="pl">Od nagrania do gotowego dokumentu w minuty</span>
+            <span data-lang="en" class="hidden">From recording to finished document in minutes</span>
+          </h2>
+          <p class="text-slate-300 max-w-2xl mx-auto">
+            <span data-lang="pl">Generuj profesjonalne protokoły z automatycznym rozpoznawaniem mówców. Eksportuj w formacie, którego potrzebujesz.</span>
+            <span data-lang="en" class="hidden">Generate professional transcripts with automatic speaker recognition. Export in the format you need.</span>
+          </p>
+        </div>
+        <div class="mt-10 grid md:grid-cols-3 gap-6">
+          <div class="glow-card rounded-2xl p-6 reveal">
+            <div class="border border-white/10 rounded-xl h-[180px] flex items-center justify-center text-slate-500 text-xs">
+              [Mini screenshot - Fragment protokołu]
+            </div>
+            <h3 class="font-semibold mt-4">
+              <span data-lang="pl">Protokoły z mówcami</span>
+              <span data-lang="en" class="hidden">Speaker protocols</span>
+            </h3>
+            <p class="text-sm text-slate-300 mt-2">
+              <span data-lang="pl">Automatyczne przypisanie wypowiedzi do mówców. Idealne do przesłuchań i rozpraw.</span>
+              <span data-lang="en" class="hidden">Automatic attribution of statements to speakers. Perfect for interrogations and hearings.</span>
+            </p>
+          </div>
+          <div class="glow-card rounded-2xl p-6 reveal">
+            <div class="border border-white/10 rounded-xl h-[180px] flex items-center justify-center text-slate-500 text-xs">
+              [Mini screenshot - Eksport do DOCX]
+            </div>
+            <h3 class="font-semibold mt-4">
+              <span data-lang="pl">Eksport do Word</span>
+              <span data-lang="en" class="hidden">Word export</span>
+            </h3>
+            <p class="text-sm text-slate-300 mt-2">
+              <span data-lang="pl">Gotowy dokument DOCX z zachowanym formatowaniem i metadanymi.</span>
+              <span data-lang="en" class="hidden">Ready DOCX document with preserved formatting and metadata.</span>
+            </p>
+          </div>
+          <div class="glow-card rounded-2xl p-6 reveal">
+            <div class="border border-white/10 rounded-xl h-[180px] flex items-center justify-center text-slate-500 text-xs">
+              [Mini screenshot - Podgląd wideo z napisami]
+            </div>
+            <h3 class="font-semibold mt-4">
+              <span data-lang="pl">Napisy do wideo</span>
+              <span data-lang="en" class="hidden">Video subtitles</span>
+            </h3>
+            <p class="text-sm text-slate-300 mt-2">
+              <span data-lang="pl">Eksport SRT, VTT lub wideo z wtopionymi napisami.</span>
+              <span data-lang="en" class="hidden">Export SRT, VTT or video with burned-in subtitles.</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Calculator section -->
+      <section class="max-w-6xl mx-auto px-6 pb-20" id="calculator">
+        <div class="glow-card rounded-3xl p-8 grid lg:grid-cols-2 gap-8 items-center reveal">
+          <div class="space-y-6">
+            <h2 class="text-3xl font-semibold">
+              <span data-lang="pl">Ile zaoszczędzisz z ScribeSec?</span>
+              <span data-lang="en" class="hidden">How much will you save with ScribeSec?</span>
+            </h2>
+            <div class="space-y-4">
+              <label class="block text-sm text-slate-300" for="hoursRange">
+                <span data-lang="pl">Ile godzin nagrań transkrybujecie miesięcznie?</span>
+                <span data-lang="en" class="hidden">How many hours of recordings do you transcribe monthly?</span>
+              </label>
+              <input id="hoursRange" type="range" min="1" max="100" value="30" class="w-full" />
+              <div class="text-sm text-slate-400">
+                <span data-lang="pl">Wybrano:</span>
+                <span data-lang="en" class="hidden">Selected:</span>
+                <span id="hoursValue">30</span>h
+              </div>
+
+              <label class="block text-sm text-slate-300" for="rateInput">
+                <span data-lang="pl">Stawka godzinowa osoby transkrybującej</span>
+                <span data-lang="en" class="hidden">Hourly rate of the transcriber</span>
+              </label>
+              <div class="flex items-center gap-3">
+                <input
+                  id="rateInput"
+                  type="number"
+                  class="bg-transparent border border-white/10 rounded-lg px-3 py-2 w-32"
+                  value="50"
+                  min="1"
+                />
+                <span id="currencyLabel" class="text-sm text-slate-400">zł</span>
+              </div>
+
+              <label class="block text-sm text-slate-300" for="timeSelect">
+                <span data-lang="pl">Czas ręcznej transkrypcji 1h nagrania</span>
+                <span data-lang="en" class="hidden">Manual transcription time per 1h recording</span>
+              </label>
+              <select id="timeSelect" class="bg-transparent border border-white/10 rounded-lg px-3 py-2">
+                <option value="3">3h</option>
+                <option value="4">4h</option>
+                <option value="5" selected>5h</option>
+                <option value="6">6h</option>
+              </select>
+            </div>
+            <p class="text-xs text-slate-400">
+              <span data-lang="pl">ScribeSec transkrybuje w czasie zbliżonym do czasu trwania nagrania. Korekta zajmuje 15-30 minut.</span>
+              <span data-lang="en" class="hidden">ScribeSec transcribes in approximately real-time. Correction takes 15-30 minutes.</span>
+            </p>
+          </div>
+          <div class="glow-card rounded-2xl p-6 space-y-4">
+            <h3 class="text-xl font-semibold">
+              <span data-lang="pl">Szacunkowe oszczędności</span>
+              <span data-lang="en" class="hidden">Estimated savings</span>
+            </h3>
+            <div class="space-y-3 text-sm text-slate-300">
+              <div class="flex justify-between">
+                <span data-lang="pl">Miesięczna oszczędność</span>
+                <span data-lang="en" class="hidden">Monthly savings</span>
+                <span id="monthlySavings">0</span>
+              </div>
+              <div class="flex justify-between">
+                <span data-lang="pl">Roczna oszczędność</span>
+                <span data-lang="en" class="hidden">Yearly savings</span>
+                <span id="yearlySavings">0</span>
+              </div>
+              <div class="flex justify-between">
+                <span data-lang="pl">ROI licencji rocznej</span>
+                <span data-lang="en" class="hidden">ROI of annual license</span>
+                <span id="roiValue">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pricing section -->
+      <section class="max-w-6xl mx-auto px-6 pb-20" id="pricing">
+        <div class="text-center space-y-4 reveal">
+          <h2 class="text-3xl md:text-4xl font-semibold">
+            <span data-lang="pl">Prosta, przewidywalna cena</span>
+            <span data-lang="en" class="hidden">Simple, predictable pricing</span>
+          </h2>
+        </div>
+        <div class="mt-10 grid lg:grid-cols-2 gap-6">
+          <div class="glow-card rounded-2xl p-8 reveal">
+            <p class="text-sm text-slate-400" data-lang="pl">Licencja roczna</p>
+            <p class="text-sm text-slate-400 hidden" data-lang="en">Annual License</p>
+            <h3 class="text-3xl font-semibold mt-3">
+              <span data-lang="pl">3 000 zł netto / rok</span>
+              <span data-lang="en" class="hidden">€700 / year</span>
+            </h3>
+            <ul class="mt-6 space-y-2 text-sm text-slate-300">
+              <li>
+                <span data-lang="pl">1 stanowisko</span>
+                <span data-lang="en" class="hidden">1 workstation</span>
+              </li>
+              <li data-lang="pl">Wszystkie funkcje</li>
+              <li data-lang="en" class="hidden">All features</li>
+              <li data-lang="pl">Aktualizacje 365 dni</li>
+              <li data-lang="en" class="hidden">Updates for 365 days</li>
+              <li data-lang="pl">Wsparcie telefoniczne i mailowe</li>
+              <li data-lang="en" class="hidden">Phone and email support</li>
+            </ul>
+            <button class="mt-6 bg-indigo-500 hover:bg-indigo-400 transition px-5 py-2 rounded-full text-sm font-semibold">
+              <span data-lang="pl">Wypróbuj 30 dni za darmo</span>
+              <span data-lang="en" class="hidden">Try 30 days free</span>
+            </button>
+          </div>
+          <div class="glow-card rounded-2xl p-8 border border-indigo-400/60 reveal">
+            <div class="text-xs uppercase tracking-[0.3em] text-indigo-300">
+              <span data-lang="pl">Najlepsza wartość</span>
+              <span data-lang="en" class="hidden">Best value</span>
+            </div>
+            <p class="text-sm text-slate-400 mt-2" data-lang="pl">Licencja wieczysta</p>
+            <p class="text-sm text-slate-400 hidden" data-lang="en">Perpetual License</p>
+            <h3 class="text-3xl font-semibold mt-3">
+              <span data-lang="pl">9 000 zł netto / jednorazowo</span>
+              <span data-lang="en" class="hidden">€2,100 / one-time</span>
+            </h3>
+            <ul class="mt-6 space-y-2 text-sm text-slate-300">
+              <li>
+                <span data-lang="pl">1 stanowisko</span>
+                <span data-lang="en" class="hidden">1 workstation</span>
+              </li>
+              <li data-lang="pl">Wszystkie funkcje</li>
+              <li data-lang="en" class="hidden">All features</li>
+              <li data-lang="pl">Aktualizacje bezterminowo</li>
+              <li data-lang="en" class="hidden">Lifetime updates</li>
+              <li data-lang="pl">Wsparcie bezterminowo</li>
+              <li data-lang="en" class="hidden">Lifetime support</li>
+            </ul>
+            <button class="mt-6 bg-indigo-500 hover:bg-indigo-400 transition px-5 py-2 rounded-full text-sm font-semibold">
+              <span data-lang="pl">Wypróbuj 30 dni za darmo</span>
+              <span data-lang="en" class="hidden">Try 30 days free</span>
+            </button>
+          </div>
+        </div>
+        <div class="mt-8 text-center">
+          <button
+            id="compareToggle"
+            class="border border-white/10 hover:border-white/30 transition px-6 py-2 rounded-full text-sm"
+            type="button"
+          >
+            <span data-lang="pl">Pokaż tabelę porównawczą</span>
+            <span data-lang="en" class="hidden">Show comparison table</span>
+          </button>
+        </div>
+        <div id="comparisonTable" class="mt-6 hidden">
+          <div class="glow-card rounded-2xl p-6 text-sm text-slate-300">
+            <div class="grid grid-cols-3 gap-4 font-semibold text-slate-200 border-b border-white/10 pb-3">
+              <span data-lang="pl">Cecha</span>
+              <span data-lang="en" class="hidden">Feature</span>
+              <span data-lang="pl">Wieczysta</span>
+              <span data-lang="en" class="hidden">Perpetual</span>
+              <span data-lang="pl">Roczna</span>
+              <span data-lang="en" class="hidden">Annual</span>
+            </div>
+            <div class="grid grid-cols-3 gap-4 py-3 border-b border-white/5">
+              <span data-lang="pl">Dostęp do oprogramowania</span>
+              <span data-lang="en" class="hidden">Access to software</span>
+              <span data-lang="pl">Bezterminowy</span>
+              <span data-lang="en" class="hidden">Lifetime</span>
+              <span data-lang="pl">365 dni</span>
+              <span data-lang="en" class="hidden">365 days</span>
+            </div>
+            <div class="grid grid-cols-3 gap-4 py-3 border-b border-white/5">
+              <span data-lang="pl">Aktualizacje funkcjonalne</span>
+              <span data-lang="en" class="hidden">Feature updates</span>
+              <span data-lang="pl">Bezterminowo</span>
+              <span data-lang="en" class="hidden">Lifetime</span>
+              <span data-lang="pl">365 dni</span>
+              <span data-lang="en" class="hidden">365 days</span>
+            </div>
+            <div class="grid grid-cols-3 gap-4 py-3 border-b border-white/5">
+              <span data-lang="pl">Aktualizacje modeli AI</span>
+              <span data-lang="en" class="hidden">AI model updates</span>
+              <span data-lang="pl">Bezterminowo</span>
+              <span data-lang="en" class="hidden">Lifetime</span>
+              <span data-lang="pl">365 dni</span>
+              <span data-lang="en" class="hidden">365 days</span>
+            </div>
+            <div class="grid grid-cols-3 gap-4 py-3 border-b border-white/5">
+              <span data-lang="pl">Wsparcie telefoniczne</span>
+              <span data-lang="en" class="hidden">Phone support</span>
+              <span data-lang="pl">Bezterminowo</span>
+              <span data-lang="en" class="hidden">Lifetime</span>
+              <span data-lang="pl">365 dni</span>
+              <span data-lang="en" class="hidden">365 days</span>
+            </div>
+            <div class="grid grid-cols-3 gap-4 py-3 border-b border-white/5">
+              <span data-lang="pl">Wsparcie mailowe</span>
+              <span data-lang="en" class="hidden">Email support</span>
+              <span data-lang="pl">Bezterminowo</span>
+              <span data-lang="en" class="hidden">Lifetime</span>
+              <span data-lang="pl">365 dni</span>
+              <span data-lang="en" class="hidden">365 days</span>
+            </div>
+            <div class="grid grid-cols-3 gap-4 py-3">
+              <span data-lang="pl">Przeniesienie na inne urządzenie</span>
+              <span data-lang="en" class="hidden">Transfer to another device</span>
+              <span data-lang="pl">Raz</span>
+              <span data-lang="en" class="hidden">Once</span>
+              <span data-lang="pl">Przy odnowieniu</span>
+              <span data-lang="en" class="hidden">With renewal</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Requirements section -->
+      <section class="max-w-6xl mx-auto px-6 pb-20" id="requirements">
+        <div class="glow-card rounded-3xl p-8 reveal">
+          <h2 class="text-2xl font-semibold mb-4">
+            <span data-lang="pl">Wymagania systemowe</span>
+            <span data-lang="en" class="hidden">System requirements</span>
+          </h2>
+          <ul class="text-sm text-slate-300 space-y-2">
+            <li data-lang="pl">Windows 10 lub 11</li>
+            <li data-lang="en" class="hidden">Windows 10 or 11</li>
+            <li data-lang="pl">8 GB RAM</li>
+            <li data-lang="en" class="hidden">8 GB RAM</li>
+            <li data-lang="pl">Procesor Intel lub AMD</li>
+            <li data-lang="en" class="hidden">Intel or AMD processor</li>
+            <li data-lang="pl">15 GB wolnego miejsca</li>
+            <li data-lang="en" class="hidden">15 GB free space</li>
+            <li data-lang="pl">Ekran min. 1024×768</li>
+            <li data-lang="en" class="hidden">Screen min. 1024×768</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Trial form section -->
+      <section class="max-w-6xl mx-auto px-6 pb-20" id="trial">
+        <div class="glow-card rounded-3xl p-8 grid lg:grid-cols-2 gap-8 reveal">
+          <div class="space-y-4">
+            <h2 class="text-3xl font-semibold">
+              <span data-lang="pl">Zacznij darmowy trial</span>
+              <span data-lang="en" class="hidden">Start a free trial</span>
+            </h2>
+            <p class="text-slate-300">
+              <span data-lang="pl">Wypełnij formularz, a skontaktujemy się w ciągu 24 godzin roboczych.</span>
+              <span data-lang="en" class="hidden">Fill out the form and we will contact you within 24 business hours.</span>
+            </p>
+          </div>
+          <form class="space-y-4" aria-label="Trial form">
+            <div class="grid md:grid-cols-2 gap-4">
+              <input
+                type="text"
+                required
+                class="bg-transparent border border-white/10 rounded-lg px-3 py-2"
+                placeholder="Imię i nazwisko"
+                data-placeholder-pl="Imię i nazwisko"
+                data-placeholder-en="Full name"
+              />
+              <input
+                type="email"
+                required
+                class="bg-transparent border border-white/10 rounded-lg px-3 py-2"
+                placeholder="Email"
+                data-placeholder-pl="Email"
+                data-placeholder-en="Email"
+              />
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+              <input
+                type="tel"
+                class="bg-transparent border border-white/10 rounded-lg px-3 py-2"
+                placeholder="Telefon (opcjonalnie)"
+                data-placeholder-pl="Telefon (opcjonalnie)"
+                data-placeholder-en="Phone (optional)"
+              />
+              <input
+                type="text"
+                required
+                class="bg-transparent border border-white/10 rounded-lg px-3 py-2"
+                placeholder="Organizacja"
+                data-placeholder-pl="Organizacja"
+                data-placeholder-en="Organization"
+              />
+            </div>
+            <select
+              id="orgType"
+              class="bg-transparent border border-white/10 rounded-lg px-3 py-2 w-full"
+              aria-label="Organization type"
+            >
+              <option value="" disabled selected data-option-pl="Typ organizacji" data-option-en="Organization type"></option>
+              <option value="law-firm" data-option-pl="Kancelaria prawna" data-option-en="Law firm"></option>
+              <option value="prosecutor" data-option-pl="Prokuratura" data-option-en="Prosecutor's office"></option>
+              <option value="police" data-option-pl="Policja" data-option-en="Police"></option>
+              <option value="other" data-option-pl="Inne" data-option-en="Other"></option>
+            </select>
+            <button class="bg-indigo-500 hover:bg-indigo-400 transition px-6 py-3 rounded-full text-sm font-semibold w-full" type="submit">
+              <span data-lang="pl">Wyślij zgłoszenie</span>
+              <span data-lang="en" class="hidden">Submit request</span>
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- FAQ section -->
+      <section class="max-w-6xl mx-auto px-6 pb-20" id="faq">
+        <div class="text-center space-y-4 reveal">
+          <h2 class="text-3xl md:text-4xl font-semibold">FAQ</h2>
+          <p class="text-slate-300 max-w-2xl mx-auto">
+            <span data-lang="pl">Najczęściej zadawane pytania o ScribeSec.</span>
+            <span data-lang="en" class="hidden">Frequently asked questions about ScribeSec.</span>
+          </p>
+        </div>
+        <div class="mt-10 grid lg:grid-cols-2 gap-6">
+          <!-- FAQ item 1 -->
+          <div class="glow-card rounded-2xl p-6 accordion-item reveal">
+            <button class="w-full text-left font-semibold accordion-toggle">
+              <span data-lang="pl">Czy ScribeSec naprawdę działa bez internetu?</span>
+              <span data-lang="en" class="hidden">Does ScribeSec really work without the internet?</span>
+            </button>
+            <div class="accordion-content mt-3 text-sm text-slate-300">
+              <span data-lang="pl">Tak. Internet wymagany tylko do jednorazowej aktywacji. Przetwarzanie jest całkowicie offline - dołączamy regułę blokującą dostęp do sieci.</span>
+              <span data-lang="en" class="hidden">Yes. Internet is only required for one-time activation. Processing is fully offline - we include a rule blocking network access.</span>
+            </div>
+          </div>
+          <!-- FAQ item 2 -->
+          <div class="glow-card rounded-2xl p-6 accordion-item reveal">
+            <button class="w-full text-left font-semibold accordion-toggle">
+              <span data-lang="pl">Jaka jest jakość transkrypcji?</span>
+              <span data-lang="en" class="hidden">What is the transcription quality?</span>
+            </button>
+            <div class="accordion-content mt-3 text-sm text-slate-300">
+              <span data-lang="pl">Wykorzystujemy najnowsze modele AI. Przy dobrej jakości nagrania transkrypcja wymaga tylko niewielkich korekt.</span>
+              <span data-lang="en" class="hidden">We use the latest AI models. With good recording quality, transcription requires only minor edits.</span>
+            </div>
+          </div>
+          <!-- FAQ item 3 -->
+          <div class="glow-card rounded-2xl p-6 accordion-item reveal">
+            <button class="w-full text-left font-semibold accordion-toggle">
+              <span data-lang="pl">Ile trwa transkrypcja godziny nagrania?</span>
+              <span data-lang="en" class="hidden">How long does it take to transcribe one hour of audio?</span>
+            </button>
+            <div class="accordion-content mt-3 text-sm text-slate-300">
+              <span data-lang="pl">Od kilkudziesięciu minut do czasu zbliżonego do długości nagrania, zależnie od wybranego modelu.</span>
+              <span data-lang="en" class="hidden">From several minutes to roughly the length of the recording, depending on the selected model.</span>
+            </div>
+          </div>
+          <!-- FAQ item 4 -->
+          <div class="glow-card rounded-2xl p-6 accordion-item reveal">
+            <button class="w-full text-left font-semibold accordion-toggle">
+              <span data-lang="pl">Jakie formaty plików są obsługiwane?</span>
+              <span data-lang="en" class="hidden">Which file formats are supported?</span>
+            </button>
+            <div class="accordion-content mt-3 text-sm text-slate-300">
+              <span data-lang="pl">Wideo: MP4, MOV, MKV, AVI. Audio: MP3, WAV. Eksport: DOCX, TXT, SRT, VTT, SUB, SBV.</span>
+              <span data-lang="en" class="hidden">Video: MP4, MOV, MKV, AVI. Audio: MP3, WAV. Export: DOCX, TXT, SRT, VTT, SUB, SBV.</span>
+            </div>
+          </div>
+          <!-- FAQ item 5 -->
+          <div class="glow-card rounded-2xl p-6 accordion-item reveal">
+            <button class="w-full text-left font-semibold accordion-toggle">
+              <span data-lang="pl">Czy mogę przetestować przed zakupem?</span>
+              <span data-lang="en" class="hidden">Can I test before purchase?</span>
+            </button>
+            <div class="accordion-content mt-3 text-sm text-slate-300">
+              <span data-lang="pl">Tak - 30 dni za darmo, pełna funkcjonalność, bez karty kredytowej.</span>
+              <span data-lang="en" class="hidden">Yes - 30 days free, full functionality, no credit card required.</span>
+            </div>
+          </div>
+          <!-- FAQ item 6 -->
+          <div class="glow-card rounded-2xl p-6 accordion-item reveal">
+            <button class="w-full text-left font-semibold accordion-toggle">
+              <span data-lang="pl">W jakich językach działa transkrypcja?</span>
+              <span data-lang="en" class="hidden">Which languages are supported?</span>
+            </button>
+            <div class="accordion-content mt-3 text-sm text-slate-300">
+              <span data-lang="pl">Polski i angielski. Kolejne języki w przygotowaniu.</span>
+              <span data-lang="en" class="hidden">Polish and English. More languages are on the way.</span>
+            </div>
+          </div>
+          <!-- FAQ item 7 -->
+          <div class="glow-card rounded-2xl p-6 accordion-item reveal">
+            <button class="w-full text-left font-semibold accordion-toggle">
+              <span data-lang="pl">Jak wygląda wsparcie techniczne?</span>
+              <span data-lang="en" class="hidden">What does support look like?</span>
+            </button>
+            <div class="accordion-content mt-3 text-sm text-slate-300">
+              <span data-lang="pl">Wsparcie telefoniczne i mailowe po polsku. Dedykowany opiekun dla każdego klienta.</span>
+              <span data-lang="en" class="hidden">Phone and email support in Polish. A dedicated account owner for every client.</span>
+            </div>
+          </div>
+          <!-- FAQ item 8 -->
+          <div class="glow-card rounded-2xl p-6 accordion-item reveal">
+            <button class="w-full text-left font-semibold accordion-toggle">
+              <span data-lang="pl">Czy potrzebuję specjalnego sprzętu?</span>
+              <span data-lang="en" class="hidden">Do I need special hardware?</span>
+            </button>
+            <div class="accordion-content mt-3 text-sm text-slate-300">
+              <span data-lang="pl">Nie. Standardowy komputer z Windows 10/11, 8GB RAM, 15GB miejsca. Bez dedykowanej karty graficznej.</span>
+              <span data-lang="en" class="hidden">No. A standard Windows 10/11 computer with 8GB RAM and 15GB storage. No dedicated GPU required.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Final CTA -->
+      <section class="max-w-6xl mx-auto px-6 pb-20">
+        <div class="screenshot-frame rounded-3xl p-10 text-center space-y-6 reveal">
+          <h2 class="text-3xl md:text-4xl font-semibold">
+            <span data-lang="pl">Gotowy na bezpieczną transkrypcję?</span>
+            <span data-lang="en" class="hidden">Ready for secure transcription?</span>
+          </h2>
+          <p class="text-slate-300">
+            <span data-lang="pl">Wypróbuj ScribeSec przez 30 dni. Bez limitów, bez karty kredytowej.</span>
+            <span data-lang="en" class="hidden">Try ScribeSec for 30 days. No limits, no credit card.</span>
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button class="bg-indigo-500 hover:bg-indigo-400 transition px-6 py-3 rounded-full text-sm font-semibold">
+              <span data-lang="pl">Rozpocznij darmowy trial</span>
+              <span data-lang="en" class="hidden">Start free trial</span>
+            </button>
+            <button class="border border-white/20 hover:border-white/40 transition px-6 py-3 rounded-full text-sm">
+              <span data-lang="pl">Umów prezentację</span>
+              <span data-lang="en" class="hidden">Schedule a demo</span>
+            </button>
+          </div>
+          <div class="border border-white/10 rounded-2xl h-[220px] flex items-center justify-center text-slate-500 text-xs">
+            [Screenshot - Mockup aplikacji w tle, rozmyty]
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5">
+      <div class="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-4 gap-8 text-sm text-slate-300">
+        <div>
+          <h4 class="text-white font-semibold mb-3">
+            <span data-lang="pl">Produkt</span>
+            <span data-lang="en" class="hidden">Product</span>
+          </h4>
+          <ul class="space-y-2">
+            <li>
+              <a href="#features">
+                <span data-lang="pl">Funkcje</span>
+                <span data-lang="en" class="hidden">Features</span>
+              </a>
+            </li>
+            <li>
+              <a href="#security">
+                <span data-lang="pl">Bezpieczeństwo</span>
+                <span data-lang="en" class="hidden">Security</span>
+              </a>
+            </li>
+            <li>
+              <a href="#pricing">
+                <span data-lang="pl">Cennik</span>
+                <span data-lang="en" class="hidden">Pricing</span>
+              </a>
+            </li>
+            <li>
+              <a href="#requirements">
+                <span data-lang="pl">Wymagania</span>
+                <span data-lang="en" class="hidden">Requirements</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-3">
+            <span data-lang="pl">Firma</span>
+            <span data-lang="en" class="hidden">Company</span>
+          </h4>
+          <ul class="space-y-2">
+            <li>
+              <a href="#">
+                <span data-lang="pl">O nas</span>
+                <span data-lang="en" class="hidden">About us</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-lang="pl">Kontakt</span>
+                <span data-lang="en" class="hidden">Contact</span>
+              </a>
+            </li>
+            <li><a href="https://napisowa.pl">napisowa.pl</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-3">
+            <span data-lang="pl">Dokumenty</span>
+            <span data-lang="en" class="hidden">Documents</span>
+          </h4>
+          <ul class="space-y-2">
+            <li>
+              <a href="#">
+                <span data-lang="pl">Polityka prywatności</span>
+                <span data-lang="en" class="hidden">Privacy policy</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-lang="pl">Regulamin</span>
+                <span data-lang="en" class="hidden">Terms of service</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="space-y-3">
+          <h4 class="text-white font-semibold">
+            <span data-lang="pl">Kontakt</span>
+            <span data-lang="en" class="hidden">Contact</span>
+          </h4>
+          <p>kontakt@kantante.eu</p>
+          <p>+48 726 147 852</p>
+          <div class="text-xs text-slate-500">
+            <p>KANTANTE sp. z o.o.</p>
+            <p>ul. Zwierzyniecka 25A, 15-312 Białystok</p>
+            <p>KRS: 0001109830 | NIP: 5423486225</p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center text-xs text-slate-500 pb-8">© 2025 Kantante Sp. z o.o.</div>
+    </footer>
+
+    <script>
+      // Language toggle and placeholder handling
+      const langToggle = document.getElementById('langToggle');
+      const translatable = document.querySelectorAll('[data-lang]');
+      const placeholders = document.querySelectorAll('[data-placeholder-pl]');
+      const optionLabels = document.querySelectorAll('[data-option-pl]');
+      let currentLang = 'pl';
+
+      const setLanguage = (lang) => {
+        currentLang = lang;
+        document.documentElement.lang = lang;
+        translatable.forEach((node) => {
+          node.classList.toggle('hidden', node.dataset.lang !== lang);
+        });
+        placeholders.forEach((input) => {
+          input.placeholder = input.dataset[`placeholder${lang.charAt(0).toUpperCase()}${lang.slice(1)}`];
+        });
+        optionLabels.forEach((option) => {
+          option.textContent = option.dataset[`option${lang.charAt(0).toUpperCase()}${lang.slice(1)}`];
+        });
+        langToggle.textContent = lang.toUpperCase();
+        updateCalculator();
+      };
+
+      langToggle.addEventListener('click', () => {
+        setLanguage(currentLang === 'pl' ? 'en' : 'pl');
+      });
+
+      setLanguage(currentLang);
+
+      // Calculator logic
+      const hoursRange = document.getElementById('hoursRange');
+      const hoursValue = document.getElementById('hoursValue');
+      const rateInput = document.getElementById('rateInput');
+      const timeSelect = document.getElementById('timeSelect');
+      const monthlySavings = document.getElementById('monthlySavings');
+      const yearlySavings = document.getElementById('yearlySavings');
+      const roiValue = document.getElementById('roiValue');
+      const currencyLabel = document.getElementById('currencyLabel');
+
+      const updateCalculator = () => {
+        const hours = Number(hoursRange.value);
+        const rate = Number(rateInput.value) || 0;
+        const manualTime = Number(timeSelect.value);
+        const manualCost = hours * manualTime * rate;
+        const scribeCost = hours * rate; // near real-time + correction
+        const monthly = Math.max(manualCost - scribeCost, 0);
+        const yearly = monthly * 12;
+        const annualLicense = currentLang === 'pl' ? 3000 : 700;
+        const roiDays = monthly > 0 ? Math.round((annualLicense / monthly) * 30) : 0;
+        const currency = currentLang === 'pl' ? 'zł' : '€';
+
+        hoursValue.textContent = hours;
+        monthlySavings.textContent = `${monthly.toLocaleString()} ${currency}`;
+        yearlySavings.textContent = `${yearly.toLocaleString()} ${currency}`;
+        roiValue.textContent = `${roiDays} ${currentLang === 'pl' ? 'dni' : 'days'}`;
+        currencyLabel.textContent = currency;
+      };
+
+      [hoursRange, rateInput, timeSelect].forEach((input) => {
+        input.addEventListener('input', updateCalculator);
+      });
+
+      updateCalculator();
+
+      // Scroll reveal animation
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+      // FAQ accordion
+      document.querySelectorAll('.accordion-toggle').forEach((toggle) => {
+        toggle.addEventListener('click', () => {
+          const item = toggle.closest('.accordion-item');
+          item.classList.toggle('open');
+        });
+      });
+
+      // Pricing table toggle
+      const compareToggle = document.getElementById('compareToggle');
+      const comparisonTable = document.getElementById('comparisonTable');
+
+      compareToggle.addEventListener('click', () => {
+        const isHidden = comparisonTable.classList.contains('hidden');
+        comparisonTable.classList.toggle('hidden');
+        compareToggle.querySelectorAll('[data-lang]').forEach((node) => {
+          if (node.dataset.lang === currentLang) {
+            node.textContent = isHidden
+              ? currentLang === 'pl'
+                ? 'Ukryj tabelę porównawczą'
+                : 'Hide comparison table'
+              : currentLang === 'pl'
+              ? 'Pokaż tabelę porównawczą'
+              : 'Show comparison table';
+          }
+        });
+      });
+
+      // Active nav link highlight
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('.nav-link');
+
+      const updateActiveLink = () => {
+        let current = '';
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop - 120;
+          if (window.scrollY >= sectionTop) {
+            current = section.id;
+          }
+        });
+        navLinks.forEach((link) => {
+          link.classList.toggle('active', link.dataset.section === current);
+        });
+      };
+
+      window.addEventListener('scroll', updateActiveLink);
+      updateActiveLink();
+    </script>
+  </body>
+</html>
